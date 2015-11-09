@@ -154,7 +154,9 @@ key1=value2</pre>
 		<b>Namespace:</b> <a href="namespace-Mini.html">Mini</a>\<a href="namespace-Mini.Config.html">Config</a><br>
 		<b>Package:</b> Mini\Config<br>
 
-			<b>Located at</b> <a href="source-class-Mini.Config.Config.html#14-271" title="Go to source code">Config.php</a>
+				<b>Author:</b>
+				Andrew Breksa<br>
+			<b>Located at</b> <a href="source-class-Mini.Config.Config.html#8-272" title="Go to source code">Config.php</a>
 		<br>
 	</div>
 
@@ -174,7 +176,7 @@ key1=value2</pre>
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-Mini.Config.Config.html#91-112" title="Go to source code">__construct</a>( <span>array|null <var>$targets</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-Mini.Config.Config.html#86-107" title="Go to source code">__construct</a>( <span>array|null <var>$targets</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			<p>Config constructor.</p>
@@ -212,7 +214,7 @@ You may also pass an array of target paths to this constructor to add them to th
 
 		<td class="name"><div>
 		<a class="anchor" href="#_addTarget">#</a>
-		<code><a href="source-class-Mini.Config.Config.html#114-131" title="Go to source code">addTarget</a>( <span>string|array <var>$target</var></span> )</code>
+		<code><a href="source-class-Mini.Config.Config.html#109-126" title="Go to source code">addTarget</a>( <span>string|array <var>$target</var></span> )</code>
 
 		<div class="description short">
 			<p>Adds a target to the target listing to include.</p>
@@ -247,14 +249,14 @@ You may also pass an array of target paths to this constructor to add them to th
 
 		<td class="name"><div>
 		<a class="anchor" href="#_registerHandler">#</a>
-		<code><a href="source-class-Mini.Config.Config.html#157-165" title="Go to source code">registerHandler</a>( <span>string <var>$extension</var></span>, <span>Closure <var>$handler</var></span> )</code>
+		<code><a href="source-class-Mini.Config.Config.html#152-166" title="Go to source code">registerHandler</a>( <span>string|array <var>$extension</var></span>, <span>Closure <var>$handler</var></span> )</code>
 
 		<div class="description short">
-			
+			<p>Register a handler. Takes a file extension to match files by, and a function to process the file and return an array.</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>Register a handler. Takes a file extension to match files by, and a function to process the file and return an array.</p>
 
 
 				<h4>Parameters</h4>
@@ -284,7 +286,7 @@ You may also pass an array of target paths to this constructor to add them to th
 
 		<td class="name"><div>
 		<a class="anchor" href="#_refresh">#</a>
-		<code><a href="source-class-Mini.Config.Config.html#167-188" title="Go to source code">refresh</a>( )</code>
+		<code><a href="source-class-Mini.Config.Config.html#168-189" title="Go to source code">refresh</a>( )</code>
 
 		<div class="description short">
 			<p>Build the config array, call this after adding config directories after the constructor.</p>
@@ -314,7 +316,7 @@ You may also pass an array of target paths to this constructor to add them to th
 
 		<td class="name"><div>
 		<a class="anchor" href="#_removeHandler">#</a>
-		<code><a href="source-class-Mini.Config.Config.html#190-197" title="Go to source code">removeHandler</a>( <span>string <var>$extension</var></span> )</code>
+		<code><a href="source-class-Mini.Config.Config.html#191-198" title="Go to source code">removeHandler</a>( <span>string <var>$extension</var></span> )</code>
 
 		<div class="description short">
 			<p>Removes a handler from the internal handler array, stopping the parsing of files with that extension.</p>
@@ -349,7 +351,7 @@ You may also pass an array of target paths to this constructor to add them to th
 
 		<td class="name"><div>
 		<a class="anchor" href="#_offsetExists">#</a>
-		<code><a href="source-class-Mini.Config.Config.html#199-205" title="Go to source code">offsetExists</a>( <span>mixed <var>$offset</var></span> )</code>
+		<code><a href="source-class-Mini.Config.Config.html#200-206" title="Go to source code">offsetExists</a>( <span>mixed <var>$offset</var></span> )</code>
 
 		<div class="description short">
 			
@@ -390,7 +392,7 @@ You may also pass an array of target paths to this constructor to add them to th
 
 		<td class="name"><div>
 		<a class="anchor" href="#___isset">#</a>
-		<code><a href="source-class-Mini.Config.Config.html#207-213" title="Go to source code">__isset</a>( <span> <var>$key</var></span> )</code>
+		<code><a href="source-class-Mini.Config.Config.html#208-214" title="Go to source code">__isset</a>( <span> <var>$key</var></span> )</code>
 
 		<div class="description short">
 			
@@ -422,14 +424,14 @@ You may also pass an array of target paths to this constructor to add them to th
 		<td class="attributes"><code>
 			 public 
 
-			null
+			mixed
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_offsetGet">#</a>
-		<code><a href="source-class-Mini.Config.Config.html#215-221" title="Go to source code">offsetGet</a>( <span>mixed <var>$offset</var></span> )</code>
+		<code><a href="source-class-Mini.Config.Config.html#216-222" title="Go to source code">offsetGet</a>( <span>mixed <var>$offset</var></span> )</code>
 
 		<div class="description short">
 			
@@ -447,7 +449,7 @@ You may also pass an array of target paths to this constructor to add them to th
 
 				<h4>Returns</h4>
 				<div class="list">
-					null
+					mixed
 				</div>
 
 
@@ -463,14 +465,14 @@ You may also pass an array of target paths to this constructor to add them to th
 		<td class="attributes"><code>
 			 public 
 
-			null
+			mixed
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#___get">#</a>
-		<code><a href="source-class-Mini.Config.Config.html#223-233" title="Go to source code">__get</a>( <span> <var>$key</var></span> )</code>
+		<code><a href="source-class-Mini.Config.Config.html#224-234" title="Go to source code">__get</a>( <span> <var>$key</var></span> )</code>
 
 		<div class="description short">
 			
@@ -488,7 +490,7 @@ You may also pass an array of target paths to this constructor to add them to th
 
 				<h4>Returns</h4>
 				<div class="list">
-					null
+					mixed
 				</div>
 
 
@@ -509,7 +511,7 @@ You may also pass an array of target paths to this constructor to add them to th
 
 		<td class="name"><div>
 		<a class="anchor" href="#___set">#</a>
-		<code><a href="source-class-Mini.Config.Config.html#235-245" title="Go to source code">__set</a>( <span> <var>$key</var></span>, <span> <var>$value</var></span> )</code>
+		<code><a href="source-class-Mini.Config.Config.html#236-246" title="Go to source code">__set</a>( <span> <var>$key</var></span>, <span> <var>$value</var></span> )</code>
 
 		<div class="description short">
 			
@@ -546,7 +548,7 @@ You may also pass an array of target paths to this constructor to add them to th
 
 		<td class="name"><div>
 		<a class="anchor" href="#_offsetSet">#</a>
-		<code><a href="source-class-Mini.Config.Config.html#247-253" title="Go to source code">offsetSet</a>( <span>mixed <var>$offset</var></span>, <span>mixed <var>$data</var></span> )</code>
+		<code><a href="source-class-Mini.Config.Config.html#248-254" title="Go to source code">offsetSet</a>( <span>mixed <var>$offset</var></span>, <span>mixed <var>$data</var></span> )</code>
 
 		<div class="description short">
 			
@@ -585,7 +587,7 @@ You may also pass an array of target paths to this constructor to add them to th
 
 		<td class="name"><div>
 		<a class="anchor" href="#_offsetUnset">#</a>
-		<code><a href="source-class-Mini.Config.Config.html#255-260" title="Go to source code">offsetUnset</a>( <span>mixed <var>$offset</var></span> )</code>
+		<code><a href="source-class-Mini.Config.Config.html#256-261" title="Go to source code">offsetUnset</a>( <span>mixed <var>$offset</var></span> )</code>
 
 		<div class="description short">
 			
@@ -622,7 +624,7 @@ You may also pass an array of target paths to this constructor to add them to th
 
 		<td class="name"><div>
 		<a class="anchor" href="#___unset">#</a>
-		<code><a href="source-class-Mini.Config.Config.html#262-269" title="Go to source code">__unset</a>( <span> <var>$name</var></span> )</code>
+		<code><a href="source-class-Mini.Config.Config.html#263-270" title="Go to source code">__unset</a>( <span> <var>$name</var></span> )</code>
 
 		<div class="description short">
 			
@@ -667,7 +669,7 @@ You may also pass an array of target paths to this constructor to add them to th
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Mini.Config.Config.html#63-68" title="Go to source code"><var>$config</var></a>
+				<a href="source-class-Mini.Config.Config.html#58-63" title="Go to source code"><var>$config</var></a>
 
 			<div class="description short">
 				<p>The config array, holds the config from all merged config files.</p>
@@ -692,7 +694,7 @@ You may also pass an array of target paths to this constructor to add them to th
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Mini.Config.Config.html#70-75" title="Go to source code"><var>$directories</var></a>
+				<a href="source-class-Mini.Config.Config.html#65-70" title="Go to source code"><var>$directories</var></a>
 
 			<div class="description short">
 				<p>The array of targets for Config to include in the the config array.</p>
@@ -717,7 +719,7 @@ You may also pass an array of target paths to this constructor to add them to th
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Mini.Config.Config.html#77-82" title="Go to source code"><var>$files</var></a>
+				<a href="source-class-Mini.Config.Config.html#72-77" title="Go to source code"><var>$files</var></a>
 
 			<div class="description short">
 				<p>The array of files for Config to include in the the config array.</p>
@@ -742,14 +744,14 @@ You may also pass an array of target paths to this constructor to add them to th
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Mini.Config.Config.html#84-89" title="Go to source code"><var>$handlers</var></a>
+				<a href="source-class-Mini.Config.Config.html#79-84" title="Go to source code"><var>$handlers</var></a>
 
 			<div class="description short">
-				<p>The array of handlers, as 'extension' => 'Closure'.</p>
+				<p>The array of handlers, as 'pattern' => 'Closure'.</p>
 			</div>
 
 			<div class="description detailed hidden">
-				<p>The array of handlers, as 'extension' => 'Closure'.</p>
+				<p>The array of handlers, as 'pattern' => 'Closure'.</p>
 
 			</div>
 		</td>
