@@ -41,6 +41,7 @@
 			<h3>Classes</h3>
 			<ul>
 				<li><a href="class-Mini.Config.Config.html">Mini\Config\Config</a></li>
+				<li><a href="class-Mini.Config.Utils.html">Mini\Config\Utils</a></li>
 			</ul>
 
 
@@ -93,7 +94,7 @@
 </span></span><span id="11" class="l"><a href="#11"> 11: </a><span class="php-comment"> * @package Mini\Config
 </span></span><span id="12" class="l"><a href="#12"> 12: </a><span class="php-comment"> * @author Andrew Breksa (abreksa4@gmail.com)
 </span></span><span id="13" class="l"><a href="#13"> 13: </a><span class="php-comment"> */</span>
-</span><span id="14" class="l"><a href="#14"> 14: </a><span class="php-keyword1">class</span> Config <span class="php-keyword1">implements</span> ArrayAccess, JsonSerializable {
+</span><span id="14" class="l"><a href="#14"> 14: </a><span class="php-keyword1">class</span> Config <span class="php-keyword1">implements</span> ArrayAccess, JsonSerializable, \Serializable {
 </span><span id="15" class="l"><a href="#15"> 15: </a>
 </span><span id="16" class="l"><a href="#16"> 16: </a>    <span class="php-comment">/**
 </span></span><span id="17" class="l"><a href="#17"> 17: </a><span class="php-comment">     * The config array, holds the config from all merged config files.
@@ -172,72 +173,72 @@
 </span><span id="90" class="l"><a href="#90"> 90: </a>    }
 </span><span id="91" class="l"><a href="#91"> 91: </a>
 </span><span id="92" class="l"><a href="#92"> 92: </a>    <span class="php-comment">/**
-</span></span><span id="93" class="l"><a href="#93"> 93: </a><span class="php-comment">     * Register a handler. Takes a file extension to match files by, and a function to process the file and return an array.
-</span></span><span id="94" class="l"><a href="#94"> 94: </a><span class="php-comment">     *
-</span></span><span id="95" class="l"><a href="#95"> 95: </a><span class="php-comment">     * @param string|array $extension
-</span></span><span id="96" class="l"><a href="#96"> 96: </a><span class="php-comment">     * @param callable $handler
-</span></span><span id="97" class="l"><a href="#97"> 97: </a><span class="php-comment">     */</span>
-</span><span id="98" class="l"><a href="#98"> 98: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> registerHandler(<span class="php-var">$extension</span>, <span class="php-var">$handler</span>) {
-</span><span id="99" class="l"><a href="#99"> 99: </a>        <span class="php-keyword1">if</span> (<span class="php-keyword2">is_array</span>(<span class="php-var">$extension</span>)) {
-</span><span id="100" class="l"><a href="#100">100: </a>            <span class="php-keyword1">foreach</span> (<span class="php-var">$extension</span> <span class="php-keyword1">as</span> <span class="php-var">$ext</span>) {
-</span><span id="101" class="l"><a href="#101">101: </a>                <span class="php-var">$this</span>-&gt;handlers[<span class="php-var">$ext</span>] = <span class="php-var">$handler</span>;
-</span><span id="102" class="l"><a href="#102">102: </a>            }
-</span><span id="103" class="l"><a href="#103">103: </a>        } <span class="php-keyword1">else</span> {
-</span><span id="104" class="l"><a href="#104">104: </a>            <span class="php-var">$this</span>-&gt;handlers[<span class="php-var">$extension</span>] = <span class="php-var">$handler</span>;
-</span><span id="105" class="l"><a href="#105">105: </a>        }
-</span><span id="106" class="l"><a href="#106">106: </a>    }
-</span><span id="107" class="l"><a href="#107">107: </a>
-</span><span id="108" class="l"><a href="#108">108: </a>    <span class="php-comment">/**
-</span></span><span id="109" class="l"><a href="#109">109: </a><span class="php-comment">     * Register the default handlers, 'php', 'xml', 'ini', and 'json'.
-</span></span><span id="110" class="l"><a href="#110">110: </a><span class="php-comment">     */</span>
-</span><span id="111" class="l"><a href="#111">111: </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> registerDefaultHandlers() {
-</span><span id="112" class="l"><a href="#112">112: </a>        <span class="php-var">$this</span>-&gt;registerHandler(<span class="php-quote">'xml'</span>, <span class="php-keyword1">function</span> (<span class="php-var">$file</span>) {
-</span><span id="113" class="l"><a href="#113">113: </a>            <span class="php-var">$xml2array</span> = <span class="php-keyword1">function</span> (<span class="php-var">$xmlObject</span>, <span class="php-var">$out</span> = <span class="php-keyword1">array</span>()) <span class="php-keyword1">use</span> (&amp;<span class="php-var">$xml2array</span>) {
-</span><span id="114" class="l"><a href="#114">114: </a>                <span class="php-keyword1">foreach</span> ((<span class="php-keyword1">array</span>)<span class="php-var">$xmlObject</span> <span class="php-keyword1">as</span> <span class="php-var">$index</span> =&gt; <span class="php-var">$node</span>) {
-</span><span id="115" class="l"><a href="#115">115: </a>                    <span class="php-var">$out</span>[<span class="php-var">$index</span>] = (<span class="php-keyword2">is_object</span>(<span class="php-var">$node</span>)) ? <span class="php-var">$xml2array</span>(<span class="php-var">$node</span>) : <span class="php-var">$node</span>;
-</span><span id="116" class="l"><a href="#116">116: </a>                }
-</span><span id="117" class="l"><a href="#117">117: </a>                <span class="php-keyword1">return</span> <span class="php-var">$out</span>;
-</span><span id="118" class="l"><a href="#118">118: </a>            };
-</span><span id="119" class="l"><a href="#119">119: </a>            <span class="php-keyword1">return</span> <span class="php-var">$xml2array</span>(<span class="php-keyword2">simplexml_load_string</span>(<span class="php-keyword2">file_get_contents</span>(<span class="php-var">$file</span>)));
-</span><span id="120" class="l"><a href="#120">120: </a>        });
-</span><span id="121" class="l"><a href="#121">121: </a>        <span class="php-var">$this</span>-&gt;registerHandler(<span class="php-quote">'php'</span>, <span class="php-keyword1">function</span> (<span class="php-var">$file</span>) {
-</span><span id="122" class="l"><a href="#122">122: </a>            <span class="php-var">$data</span> = <span class="php-keyword1">include</span>(<span class="php-var">$file</span>);
-</span><span id="123" class="l"><a href="#123">123: </a>            <span class="php-keyword1">if</span> (<span class="php-var">$data</span> != <span class="php-keyword1">null</span> &amp;&amp; <span class="php-keyword2">is_array</span>(<span class="php-var">$data</span>)) {
-</span><span id="124" class="l"><a href="#124">124: </a>                <span class="php-keyword1">return</span> <span class="php-var">$data</span>;
-</span><span id="125" class="l"><a href="#125">125: </a>            }
-</span><span id="126" class="l"><a href="#126">126: </a>            <span class="php-keyword1">return</span>;
-</span><span id="127" class="l"><a href="#127">127: </a>        });
-</span><span id="128" class="l"><a href="#128">128: </a>        <span class="php-var">$this</span>-&gt;registerHandler(<span class="php-quote">'ini'</span>, <span class="php-keyword1">function</span> (<span class="php-var">$file</span>) {
-</span><span id="129" class="l"><a href="#129">129: </a>            <span class="php-keyword1">return</span> <span class="php-keyword2">parse_ini_file</span>(<span class="php-var">$file</span>, <span class="php-keyword1">true</span>);
-</span><span id="130" class="l"><a href="#130">130: </a>        });
-</span><span id="131" class="l"><a href="#131">131: </a>        <span class="php-var">$this</span>-&gt;registerHandler(<span class="php-quote">'json'</span>, <span class="php-keyword1">function</span> (<span class="php-var">$file</span>) {
-</span><span id="132" class="l"><a href="#132">132: </a>            <span class="php-keyword1">return</span> <span class="php-keyword2">json_decode</span>(<span class="php-keyword2">file_get_contents</span>(<span class="php-var">$file</span>), <span class="php-keyword1">true</span>);
-</span><span id="133" class="l"><a href="#133">133: </a>        });
-</span><span id="134" class="l"><a href="#134">134: </a>    }
-</span><span id="135" class="l"><a href="#135">135: </a>
-</span><span id="136" class="l"><a href="#136">136: </a>    <span class="php-comment">/**
-</span></span><span id="137" class="l"><a href="#137">137: </a><span class="php-comment">     * Build the config array, call this after adding config directories after the constructor.
-</span></span><span id="138" class="l"><a href="#138">138: </a><span class="php-comment">     */</span>
-</span><span id="139" class="l"><a href="#139">139: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> refresh() {
-</span><span id="140" class="l"><a href="#140">140: </a>        <span class="php-var">$this</span>-&gt;config = [];
-</span><span id="141" class="l"><a href="#141">141: </a>        <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;directories <span class="php-keyword1">as</span> <span class="php-var">$dir</span>) {
-</span><span id="142" class="l"><a href="#142">142: </a>            <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;handlers <span class="php-keyword1">as</span> <span class="php-var">$ext</span> =&gt; <span class="php-var">$function</span>) {
-</span><span id="143" class="l"><a href="#143">143: </a>                <span class="php-keyword1">foreach</span> (<span class="php-keyword2">glob</span>(<span class="php-var">$dir</span> . <span class="php-quote">&quot;/*.&quot;</span> . <span class="php-var">$ext</span>, GLOB_NOSORT) <span class="php-keyword1">as</span> <span class="php-var">$file</span>) {
-</span><span id="144" class="l"><a href="#144">144: </a>                    <span class="php-var">$this</span>-&gt;config = <span class="php-keyword2">array_merge_recursive</span>(<span class="php-var">$this</span>-&gt;config, <span class="php-var">$function</span>(<span class="php-var">$file</span>));
-</span><span id="145" class="l"><a href="#145">145: </a>                }
-</span><span id="146" class="l"><a href="#146">146: </a>            }
-</span><span id="147" class="l"><a href="#147">147: </a>        }
-</span><span id="148" class="l"><a href="#148">148: </a>        <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;files <span class="php-keyword1">as</span> <span class="php-var">$file</span>) {
-</span><span id="149" class="l"><a href="#149">149: </a>            <span class="php-var">$pathinfo</span> = <span class="php-keyword2">pathinfo</span>(<span class="php-var">$file</span>);
-</span><span id="150" class="l"><a href="#150">150: </a>            <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$pathinfo</span>[<span class="php-quote">'extension'</span>])) {
-</span><span id="151" class="l"><a href="#151">151: </a>                <span class="php-var">$ext</span> = <span class="php-var">$pathinfo</span>[<span class="php-quote">'extension'</span>];
-</span><span id="152" class="l"><a href="#152">152: </a>                <span class="php-keyword1">if</span> (<span class="php-keyword2">in_array</span>(<span class="php-var">$ext</span>, <span class="php-keyword2">array_keys</span>(<span class="php-var">$this</span>-&gt;handlers))) {
-</span><span id="153" class="l"><a href="#153">153: </a>                    <span class="php-var">$this</span>-&gt;config = <span class="php-keyword2">array_merge_recursive</span>(<span class="php-var">$this</span>-&gt;config, <span class="php-var">$this</span>-&gt;handlers[<span class="php-var">$ext</span>](<span class="php-var">$file</span>));
-</span><span id="154" class="l"><a href="#154">154: </a>                }
-</span><span id="155" class="l"><a href="#155">155: </a>            }
-</span><span id="156" class="l"><a href="#156">156: </a>        }
-</span><span id="157" class="l"><a href="#157">157: </a>    }
-</span><span id="158" class="l"><a href="#158">158: </a>
+</span></span><span id="93" class="l"><a href="#93"> 93: </a><span class="php-comment">     * Register a handler. Takes a file extension to match files by, and a function to process the file and return an
+</span></span><span id="94" class="l"><a href="#94"> 94: </a><span class="php-comment">     * array.
+</span></span><span id="95" class="l"><a href="#95"> 95: </a><span class="php-comment">     *
+</span></span><span id="96" class="l"><a href="#96"> 96: </a><span class="php-comment">     * @param string|array $extension
+</span></span><span id="97" class="l"><a href="#97"> 97: </a><span class="php-comment">     * @param callable $handler
+</span></span><span id="98" class="l"><a href="#98"> 98: </a><span class="php-comment">     */</span>
+</span><span id="99" class="l"><a href="#99"> 99: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> registerHandler(<span class="php-var">$extension</span>, <span class="php-var">$handler</span>) {
+</span><span id="100" class="l"><a href="#100">100: </a>        <span class="php-keyword1">if</span> (<span class="php-keyword2">is_array</span>(<span class="php-var">$extension</span>)) {
+</span><span id="101" class="l"><a href="#101">101: </a>            <span class="php-keyword1">foreach</span> (<span class="php-var">$extension</span> <span class="php-keyword1">as</span> <span class="php-var">$ext</span>) {
+</span><span id="102" class="l"><a href="#102">102: </a>                <span class="php-var">$this</span>-&gt;handlers[<span class="php-var">$ext</span>] = <span class="php-var">$handler</span>;
+</span><span id="103" class="l"><a href="#103">103: </a>            }
+</span><span id="104" class="l"><a href="#104">104: </a>        } <span class="php-keyword1">else</span> {
+</span><span id="105" class="l"><a href="#105">105: </a>            <span class="php-var">$this</span>-&gt;handlers[<span class="php-var">$extension</span>] = <span class="php-var">$handler</span>;
+</span><span id="106" class="l"><a href="#106">106: </a>        }
+</span><span id="107" class="l"><a href="#107">107: </a>    }
+</span><span id="108" class="l"><a href="#108">108: </a>
+</span><span id="109" class="l"><a href="#109">109: </a>    <span class="php-comment">/**
+</span></span><span id="110" class="l"><a href="#110">110: </a><span class="php-comment">     * Register the default handlers, 'php', 'xml', 'ini', and 'json'.
+</span></span><span id="111" class="l"><a href="#111">111: </a><span class="php-comment">     */</span>
+</span><span id="112" class="l"><a href="#112">112: </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> registerDefaultHandlers() {
+</span><span id="113" class="l"><a href="#113">113: </a>        <span class="php-var">$this</span>-&gt;registerHandler(<span class="php-quote">'xml'</span>, <span class="php-keyword1">function</span> (<span class="php-var">$file</span>) {
+</span><span id="114" class="l"><a href="#114">114: </a>            <span class="php-var">$xml2array</span> = <span class="php-keyword1">function</span> (<span class="php-var">$xmlObject</span>, <span class="php-var">$out</span> = <span class="php-keyword1">array</span>()) <span class="php-keyword1">use</span> (&amp;<span class="php-var">$xml2array</span>) {
+</span><span id="115" class="l"><a href="#115">115: </a>                <span class="php-keyword1">foreach</span> ((<span class="php-keyword1">array</span>)<span class="php-var">$xmlObject</span> <span class="php-keyword1">as</span> <span class="php-var">$index</span> =&gt; <span class="php-var">$node</span>) {
+</span><span id="116" class="l"><a href="#116">116: </a>                    <span class="php-var">$out</span>[<span class="php-var">$index</span>] = (<span class="php-keyword2">is_object</span>(<span class="php-var">$node</span>)) ? <span class="php-var">$xml2array</span>(<span class="php-var">$node</span>) : <span class="php-var">$node</span>;
+</span><span id="117" class="l"><a href="#117">117: </a>                }
+</span><span id="118" class="l"><a href="#118">118: </a>                <span class="php-keyword1">return</span> <span class="php-var">$out</span>;
+</span><span id="119" class="l"><a href="#119">119: </a>            };
+</span><span id="120" class="l"><a href="#120">120: </a>            <span class="php-keyword1">return</span> <span class="php-var">$xml2array</span>(<span class="php-keyword2">simplexml_load_string</span>(<span class="php-keyword2">file_get_contents</span>(<span class="php-var">$file</span>)));
+</span><span id="121" class="l"><a href="#121">121: </a>        });
+</span><span id="122" class="l"><a href="#122">122: </a>        <span class="php-var">$this</span>-&gt;registerHandler(<span class="php-quote">'php'</span>, <span class="php-keyword1">function</span> (<span class="php-var">$file</span>) {
+</span><span id="123" class="l"><a href="#123">123: </a>            <span class="php-var">$data</span> = <span class="php-keyword1">include</span>(<span class="php-var">$file</span>);
+</span><span id="124" class="l"><a href="#124">124: </a>            <span class="php-keyword1">if</span> (<span class="php-var">$data</span> != <span class="php-keyword1">null</span> &amp;&amp; <span class="php-keyword2">is_array</span>(<span class="php-var">$data</span>)) {
+</span><span id="125" class="l"><a href="#125">125: </a>                <span class="php-keyword1">return</span> <span class="php-var">$data</span>;
+</span><span id="126" class="l"><a href="#126">126: </a>            }
+</span><span id="127" class="l"><a href="#127">127: </a>            <span class="php-keyword1">return</span>;
+</span><span id="128" class="l"><a href="#128">128: </a>        });
+</span><span id="129" class="l"><a href="#129">129: </a>        <span class="php-var">$this</span>-&gt;registerHandler(<span class="php-quote">'ini'</span>, <span class="php-keyword1">function</span> (<span class="php-var">$file</span>) {
+</span><span id="130" class="l"><a href="#130">130: </a>            <span class="php-keyword1">return</span> <span class="php-keyword2">parse_ini_file</span>(<span class="php-var">$file</span>, <span class="php-keyword1">true</span>);
+</span><span id="131" class="l"><a href="#131">131: </a>        });
+</span><span id="132" class="l"><a href="#132">132: </a>        <span class="php-var">$this</span>-&gt;registerHandler(<span class="php-quote">'json'</span>, <span class="php-keyword1">function</span> (<span class="php-var">$file</span>) {
+</span><span id="133" class="l"><a href="#133">133: </a>            <span class="php-keyword1">return</span> <span class="php-keyword2">json_decode</span>(<span class="php-keyword2">file_get_contents</span>(<span class="php-var">$file</span>), <span class="php-keyword1">true</span>);
+</span><span id="134" class="l"><a href="#134">134: </a>        });
+</span><span id="135" class="l"><a href="#135">135: </a>    }
+</span><span id="136" class="l"><a href="#136">136: </a>
+</span><span id="137" class="l"><a href="#137">137: </a>    <span class="php-comment">/**
+</span></span><span id="138" class="l"><a href="#138">138: </a><span class="php-comment">     * Build the config array, call this after adding config directories after the constructor.
+</span></span><span id="139" class="l"><a href="#139">139: </a><span class="php-comment">     */</span>
+</span><span id="140" class="l"><a href="#140">140: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> refresh() {
+</span><span id="141" class="l"><a href="#141">141: </a>        <span class="php-var">$this</span>-&gt;config = [];
+</span><span id="142" class="l"><a href="#142">142: </a>        <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;directories <span class="php-keyword1">as</span> <span class="php-var">$dir</span>) {
+</span><span id="143" class="l"><a href="#143">143: </a>            <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;handlers <span class="php-keyword1">as</span> <span class="php-var">$ext</span> =&gt; <span class="php-var">$function</span>) {
+</span><span id="144" class="l"><a href="#144">144: </a>                <span class="php-keyword1">foreach</span> (<span class="php-keyword2">glob</span>(<span class="php-var">$dir</span> . <span class="php-quote">&quot;/*.&quot;</span> . <span class="php-var">$ext</span>, GLOB_NOSORT) <span class="php-keyword1">as</span> <span class="php-var">$file</span>) {
+</span><span id="145" class="l"><a href="#145">145: </a>                    <span class="php-var">$this</span>-&gt;config = <span class="php-keyword2">array_merge_recursive</span>(<span class="php-var">$this</span>-&gt;config, <span class="php-var">$function</span>(<span class="php-var">$file</span>));
+</span><span id="146" class="l"><a href="#146">146: </a>                }
+</span><span id="147" class="l"><a href="#147">147: </a>            }
+</span><span id="148" class="l"><a href="#148">148: </a>        }
+</span><span id="149" class="l"><a href="#149">149: </a>        <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;files <span class="php-keyword1">as</span> <span class="php-var">$file</span>) {
+</span><span id="150" class="l"><a href="#150">150: </a>            <span class="php-var">$pathinfo</span> = <span class="php-keyword2">pathinfo</span>(<span class="php-var">$file</span>);
+</span><span id="151" class="l"><a href="#151">151: </a>            <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$pathinfo</span>[<span class="php-quote">'extension'</span>])) {
+</span><span id="152" class="l"><a href="#152">152: </a>                <span class="php-var">$ext</span> = <span class="php-var">$pathinfo</span>[<span class="php-quote">'extension'</span>];
+</span><span id="153" class="l"><a href="#153">153: </a>                <span class="php-keyword1">if</span> (<span class="php-keyword2">in_array</span>(<span class="php-var">$ext</span>, <span class="php-keyword2">array_keys</span>(<span class="php-var">$this</span>-&gt;handlers))) {
+</span><span id="154" class="l"><a href="#154">154: </a>                    <span class="php-var">$this</span>-&gt;config = <span class="php-keyword2">array_merge_recursive</span>(<span class="php-var">$this</span>-&gt;config, <span class="php-var">$this</span>-&gt;handlers[<span class="php-var">$ext</span>](<span class="php-var">$file</span>));
+</span><span id="155" class="l"><a href="#155">155: </a>                }
+</span><span id="156" class="l"><a href="#156">156: </a>            }
+</span><span id="157" class="l"><a href="#157">157: </a>        }
+</span><span id="158" class="l"><a href="#158">158: </a>    }
 </span><span id="159" class="l"><a href="#159">159: </a>
 </span><span id="160" class="l"><a href="#160">160: </a>    <span class="php-comment">/**
 </span></span><span id="161" class="l"><a href="#161">161: </a><span class="php-comment">     * Merges the provided array and config array into the config array
@@ -330,17 +331,95 @@
 </span><span id="248" class="l"><a href="#248">248: </a>    }
 </span><span id="249" class="l"><a href="#249">249: </a>
 </span><span id="250" class="l"><a href="#250">250: </a>    <span class="php-comment">/**
-</span></span><span id="251" class="l"><a href="#251">251: </a><span class="php-comment">     * Specify data which should be serialized to JSON
-</span></span><span id="252" class="l"><a href="#252">252: </a><span class="php-comment">     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-</span></span><span id="253" class="l"><a href="#253">253: </a><span class="php-comment">     * @return mixed data which can be serialized by &lt;b&gt;json_encode&lt;/b&gt;,
-</span></span><span id="254" class="l"><a href="#254">254: </a><span class="php-comment">     * which is a value of any type other than a resource.
-</span></span><span id="255" class="l"><a href="#255">255: </a><span class="php-comment">     * @since 5.4.0
-</span></span><span id="256" class="l"><a href="#256">256: </a><span class="php-comment">     */</span>
-</span><span id="257" class="l"><a href="#257">257: </a>    <span class="php-keyword1">function</span> jsonSerialize() {
-</span><span id="258" class="l"><a href="#258">258: </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;config;
-</span><span id="259" class="l"><a href="#259">259: </a>    }
-</span><span id="260" class="l"><a href="#260">260: </a>}
-</span><span id="261" class="l"><a href="#261">261: </a></span></code></pre>
+</span></span><span id="251" class="l"><a href="#251">251: </a><span class="php-comment">     * String representation of object
+</span></span><span id="252" class="l"><a href="#252">252: </a><span class="php-comment">     * @link http://php.net/manual/en/serializable.serialize.php
+</span></span><span id="253" class="l"><a href="#253">253: </a><span class="php-comment">     * @return string the string representation of the object or null
+</span></span><span id="254" class="l"><a href="#254">254: </a><span class="php-comment">     * @since 5.1.0
+</span></span><span id="255" class="l"><a href="#255">255: </a><span class="php-comment">     */</span>
+</span><span id="256" class="l"><a href="#256">256: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <span class="php-keyword2">serialize</span>() {
+</span><span id="257" class="l"><a href="#257">257: </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;jsonSerialize();
+</span><span id="258" class="l"><a href="#258">258: </a>    }
+</span><span id="259" class="l"><a href="#259">259: </a>
+</span><span id="260" class="l"><a href="#260">260: </a>    <span class="php-comment">/**
+</span></span><span id="261" class="l"><a href="#261">261: </a><span class="php-comment">     * Specify data which should be serialized to JSON
+</span></span><span id="262" class="l"><a href="#262">262: </a><span class="php-comment">     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+</span></span><span id="263" class="l"><a href="#263">263: </a><span class="php-comment">     * @return mixed data which can be serialized by &lt;b&gt;json_encode&lt;/b&gt;,
+</span></span><span id="264" class="l"><a href="#264">264: </a><span class="php-comment">     * which is a value of any type other than a resource.
+</span></span><span id="265" class="l"><a href="#265">265: </a><span class="php-comment">     * @since 5.4.0
+</span></span><span id="266" class="l"><a href="#266">266: </a><span class="php-comment">     */</span>
+</span><span id="267" class="l"><a href="#267">267: </a>    <span class="php-keyword1">function</span> jsonSerialize() {
+</span><span id="268" class="l"><a href="#268">268: </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;config;
+</span><span id="269" class="l"><a href="#269">269: </a>    }
+</span><span id="270" class="l"><a href="#270">270: </a>
+</span><span id="271" class="l"><a href="#271">271: </a>    <span class="php-comment">/**
+</span></span><span id="272" class="l"><a href="#272">272: </a><span class="php-comment">     * Constructs the object
+</span></span><span id="273" class="l"><a href="#273">273: </a><span class="php-comment">     * @link http://php.net/manual/en/serializable.unserialize.php
+</span></span><span id="274" class="l"><a href="#274">274: </a><span class="php-comment">     * @param string $serialized &lt;p&gt;
+</span></span><span id="275" class="l"><a href="#275">275: </a><span class="php-comment">     * The string representation of the object.
+</span></span><span id="276" class="l"><a href="#276">276: </a><span class="php-comment">     * &lt;/p&gt;
+</span></span><span id="277" class="l"><a href="#277">277: </a><span class="php-comment">     * @return void
+</span></span><span id="278" class="l"><a href="#278">278: </a><span class="php-comment">     * @since 5.1.0
+</span></span><span id="279" class="l"><a href="#279">279: </a><span class="php-comment">     */</span>
+</span><span id="280" class="l"><a href="#280">280: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <span class="php-keyword2">unserialize</span>(<span class="php-var">$serialized</span>) {
+</span><span id="281" class="l"><a href="#281">281: </a>        <span class="php-var">$this</span>-&gt;config = <span class="php-keyword2">json_decode</span>(<span class="php-var">$serialized</span>, <span class="php-keyword1">true</span>);
+</span><span id="282" class="l"><a href="#282">282: </a>    }
+</span><span id="283" class="l"><a href="#283">283: </a>}
+</span><span id="284" class="l"><a href="#284">284: </a>
+</span><span id="285" class="l"><a href="#285">285: </a><span class="php-comment">/**
+</span></span><span id="286" class="l"><a href="#286">286: </a><span class="php-comment"> * Utils class for Mini\Config
+</span></span><span id="287" class="l"><a href="#287">287: </a><span class="php-comment"> * @package Mini\Config
+</span></span><span id="288" class="l"><a href="#288">288: </a><span class="php-comment"> * @author Andrew Breksa (abreksa4@gmail.com)
+</span></span><span id="289" class="l"><a href="#289">289: </a><span class="php-comment"> */</span>
+</span><span id="290" class="l"><a href="#290">290: </a><span class="php-keyword1">class</span> Utils {
+</span><span id="291" class="l"><a href="#291">291: </a>    <span class="php-comment">/**
+</span></span><span id="292" class="l"><a href="#292">292: </a><span class="php-comment">     * Merges two arrays, and returns the result. Takes an optional $overwrite parameter to overwrite string value with
+</span></span><span id="293" class="l"><a href="#293">293: </a><span class="php-comment">     * those in the second array, i.e.:
+</span></span><span id="294" class="l"><a href="#294">294: </a><span class="php-comment">     * &lt;code&gt;
+</span></span><span id="295" class="l"><a href="#295">295: </a><span class="php-comment">     * $this-&gt;_merge([
+</span></span><span id="296" class="l"><a href="#296">296: </a><span class="php-comment">     *     'database'=&gt;[
+</span></span><span id="297" class="l"><a href="#297">297: </a><span class="php-comment">     *         'password' =&gt; 'toor'
+</span></span><span id="298" class="l"><a href="#298">298: </a><span class="php-comment">     *     ]],[
+</span></span><span id="299" class="l"><a href="#299">299: </a><span class="php-comment">     *     'database'=&gt;[
+</span></span><span id="300" class="l"><a href="#300">300: </a><span class="php-comment">     *         'password' =&gt; 'password'
+</span></span><span id="301" class="l"><a href="#301">301: </a><span class="php-comment">     * ]], true);
+</span></span><span id="302" class="l"><a href="#302">302: </a><span class="php-comment">     * &lt;/code&gt;
+</span></span><span id="303" class="l"><a href="#303">303: </a><span class="php-comment">     *
+</span></span><span id="304" class="l"><a href="#304">304: </a><span class="php-comment">     * Will result in:
+</span></span><span id="305" class="l"><a href="#305">305: </a><span class="php-comment">     * &lt;code&gt;
+</span></span><span id="306" class="l"><a href="#306">306: </a><span class="php-comment">     * [
+</span></span><span id="307" class="l"><a href="#307">307: </a><span class="php-comment">     *     'database' =&gt; [
+</span></span><span id="308" class="l"><a href="#308">308: </a><span class="php-comment">     *         'password' =&gt; 'password
+</span></span><span id="309" class="l"><a href="#309">309: </a><span class="php-comment">     *     ]
+</span></span><span id="310" class="l"><a href="#310">310: </a><span class="php-comment">     * ]
+</span></span><span id="311" class="l"><a href="#311">311: </a><span class="php-comment">     * &lt;/code&gt;
+</span></span><span id="312" class="l"><a href="#312">312: </a><span class="php-comment">     *
+</span></span><span id="313" class="l"><a href="#313">313: </a><span class="php-comment">     * @param array $array1
+</span></span><span id="314" class="l"><a href="#314">314: </a><span class="php-comment">     * @param array $array2
+</span></span><span id="315" class="l"><a href="#315">315: </a><span class="php-comment">     * @param bool|false $overwrite
+</span></span><span id="316" class="l"><a href="#316">316: </a><span class="php-comment">     * @return array
+</span></span><span id="317" class="l"><a href="#317">317: </a><span class="php-comment">     */</span>
+</span><span id="318" class="l"><a href="#318">318: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">static</span> <span class="php-keyword1">function</span> merge(<span class="php-var">$array1</span>, <span class="php-var">$array2</span>, <span class="php-var">$overwrite</span> = <span class="php-keyword1">false</span>) {
+</span><span id="319" class="l"><a href="#319">319: </a>        <span class="php-var">$array</span> = <span class="php-var">$array1</span>;
+</span><span id="320" class="l"><a href="#320">320: </a>        <span class="php-keyword1">foreach</span> (<span class="php-keyword2">array_keys</span>(<span class="php-var">$array2</span>) <span class="php-keyword1">as</span> <span class="php-var">$key</span>) {
+</span><span id="321" class="l"><a href="#321">321: </a>            <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$array1</span>[<span class="php-var">$key</span>])) {
+</span><span id="322" class="l"><a href="#322">322: </a>                <span class="php-var">$array</span>[<span class="php-var">$key</span>] = <span class="php-var">$array2</span>[<span class="php-var">$key</span>];
+</span><span id="323" class="l"><a href="#323">323: </a>                <span class="php-keyword1">continue</span>;
+</span><span id="324" class="l"><a href="#324">324: </a>            }
+</span><span id="325" class="l"><a href="#325">325: </a>            <span class="php-keyword1">if</span> (<span class="php-keyword2">is_array</span>(<span class="php-var">$array1</span>[<span class="php-var">$key</span>])) {
+</span><span id="326" class="l"><a href="#326">326: </a>                <span class="php-var">$array</span>[<span class="php-var">$key</span>] = self::Merge(<span class="php-var">$array1</span>[<span class="php-var">$key</span>], <span class="php-var">$array2</span>[<span class="php-var">$key</span>], <span class="php-var">$overwrite</span>);
+</span><span id="327" class="l"><a href="#327">327: </a>                <span class="php-keyword1">continue</span>;
+</span><span id="328" class="l"><a href="#328">328: </a>            }
+</span><span id="329" class="l"><a href="#329">329: </a>            <span class="php-keyword1">if</span> (<span class="php-var">$overwrite</span>) {
+</span><span id="330" class="l"><a href="#330">330: </a>                <span class="php-var">$array</span>[<span class="php-var">$key</span>] = <span class="php-var">$array2</span>[<span class="php-var">$key</span>];
+</span><span id="331" class="l"><a href="#331">331: </a>            } <span class="php-keyword1">else</span> {
+</span><span id="332" class="l"><a href="#332">332: </a>                <span class="php-var">$array</span>[<span class="php-var">$key</span>] = [<span class="php-var">$array</span>[<span class="php-var">$key</span>], <span class="php-var">$array2</span>[<span class="php-var">$key</span>]];
+</span><span id="333" class="l"><a href="#333">333: </a>            }
+</span><span id="334" class="l"><a href="#334">334: </a>        }
+</span><span id="335" class="l"><a href="#335">335: </a>        <span class="php-keyword1">return</span> <span class="php-var">$array</span>;
+</span><span id="336" class="l"><a href="#336">336: </a>    }
+</span><span id="337" class="l"><a href="#337">337: </a>
+</span><span id="338" class="l"><a href="#338">338: </a>}
+</span><span id="339" class="l"><a href="#339">339: </a></span></code></pre>
 
 	<div id="footer">
 		mini-config API documentation generated by <a href="http://apigen.org">ApiGen</a>
@@ -348,6 +427,6 @@
 </div>
 </div>
 <script src="resources/combined.js?6912ed5c1adbfc429b76236b9d6a783f1ad15a1c"></script>
-<script src="elementlist.js?f809355f54e11b6995b7da763a7b903da33b0ae5"></script>
+<script src="elementlist.js?eae1a64c24e46de8db3efcd43a834c41d933bd61"></script>
 </body>
 </html>
